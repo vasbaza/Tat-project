@@ -1,7 +1,5 @@
-```{r}
+### Скачиваем библиотеки
 ```
-###Скачиваем библиотеки
-````
 library(DESeq2)
 library(clusterProfiler)
 library(enrichplot)
@@ -9,9 +7,9 @@ library(ggplot2)
 library(AnnotationDbi)
 library("org.Hs.eg.db", character.only = TRUE)
 
-````
-###Загружаем образцы 
-````
+```
+### Загружаем образцы 
+```
 
 control.1 <- read.delim("c1.counts.tab", header = TRUE)
 
@@ -51,9 +49,9 @@ Tat.s.3 <- read.delim("s3.counts.tab", header = TRUE)
 
 raw_counts <- cbind(control.1, control.2, control.3, Tat.0h.1, Tat.0h.2, Tat.0h.3, Tat.16h.1, Tat.16h.2, Tat.16h.3, Tat.s.1, Tat.s.2, Tat.s.3)
 
-````
-###Deseq2
-````
+```
+### Deseq2
+```
 
 #Stable vs Control and O hours vs Control
 
@@ -93,18 +91,18 @@ resultsNames(dds_16_0)
 res_T16_T0 <- results(dds_16_0, name = "condition_Tat.16h_vs_Tat.0h")
 res_T16_T0 <- as.data.frame(res_T16_T0)
 
-````
-###Добавляем названия генов в кодировке Ensembl
-````
+```
+### Добавляем названия генов в кодировке Ensembl
+```
 
 FeatureID <- read.delim('FeatureID.tab', header = TRUE) # здесь названия взяты из таблицы с каунтами
 rownames(res_T0_c) <- FeatureID$FeatureID
 rownames(res_s_c) <- FeatureID$FeatureID
 rownames(res_T16_T0) <- FeatureID$FeatureID
 
-````
-###Добавляем названия генов в кодировках Symbol, EntrezID, Genename
-````
+```
+### Добавляем названия генов в кодировках Symbol, EntrezID, Genename
+```
 res_T0_c$symbol = mapIds(org.Hs.eg.db,
 keys = row.names(res_T0_c),
 column = "SYMBOL",
@@ -156,9 +154,9 @@ keytype = "ENSEMBL",
 multiVals = "first")
 res_T16_T0$foldChange <- 2**(res_T16_T0$log2FoldChange)
 
-````
-###Сортируем по padj
-````
+```
+### Сортируем по padj
+```
 res_s_c_padj <- res_s_c[res_s_c$padj <= 0.05,]
 res_s_c_padj <- na.omit(res_s_c_padj)
 
@@ -168,9 +166,9 @@ res_T0_c_padj <- na.omit(res_T0_c_padj)
 res_T16_T0_padj <- res_T16_T0[res_T16_T0$padj <= 0.05,]
 res_T16_T0_padj <- na.omit(res_T16_T0_padj)
 
-````
-###Разбиваем на группы (повышение и понижение экспрессии)
-````
+```
+### Разбиваем на группы (повышение и понижение экспрессии)
+```
 
 s_c_up <- res_s_c_padj[res_s_c_padj$log2FoldChange > 0,]
 s_c_up <- s_c_up[order(- (as.vector(s_c_up$stat))),]

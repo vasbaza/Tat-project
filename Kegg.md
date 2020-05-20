@@ -1,15 +1,15 @@
-###Cоздаем genelist для возможности цветного отображения log2FoldChange
-````
+### Cоздаем genelist для возможности цветного отображения log2FoldChange
+```
 kegg_gene_list <- res_T16_T0_padj$foldChange
 names(kegg_gene_list) <- res_T16_T0_padj$entrez
 
 kegg_gene_list_s <- res_s_c_padj$log2FoldChange
 names(kegg_gene_list_s) <- res_s_c_padj$entrez
-````
-###Анализ enrichKEGG
+```
+### Анализ enrichKEGG
 
 #### Stable vs Control. Активация
-````
+```
 eKegg_s_c_up <- enrichKEGG(gene = s_c_up$entrez,
            organism = "hsa",
            keyType = "kegg",
@@ -22,9 +22,9 @@ eKegg_s_c_up <- enrichKEGG(gene = s_c_up$entrez,
            use_internal_data = FALSE)
 
 dotplot(eKegg_s_c_up, showCategory = 20)
-````
+```
 ![Активация при стабильной экспрессии](images/pic7.png)
-````
+```
 # write.csv(as.data.frame(eKegg_s_c_up), 's_c_up.csv')
 
 geneList = df_eKegg_s_c_up$ID[c(1,2,4,6,8)] #Наборы номеров категорий 1,2,4,6,8  5,12,13,18  15,21
@@ -34,23 +34,23 @@ eKegg_s_c_up_fc<- setReadable(eKegg_s_c_up_fc, 'org.Hs.eg.db', 'ENTREZID')
 
 cnetplot(eKegg_s_c_up_fc, colorEdge = TRUE, foldChange = kegg_gene_list_s)
 
-````
+```
 ![Активация при стабильной экспрессии](images/pic8.png)
-````
+```
 # Активация при стабильной экспрессии (категории 1,2,4,6,8)
 
-````
+```
 ![Активация при стабильной экспрессии](images/pic9.png)
-`````
+````
 # Активация при стабильной экспрессии (категории 5,12,13,18)
-`````
+````
 ![Активация при стабильной экспрессии](images/pic10.png)
 
-````
+```
 # Активация при стабильной экспрессии (категории 15,21)
-````
-####Tat 16 hours vs Tat 0 hours. Активация
-````
+```
+#### Tat 16 hours vs Tat 0 hours. Активация
+```
 
 eKegg_T16_T0_up <- enrichKEGG(gene = T16_T0_up$entrez,
                             organism = "hsa",
@@ -66,9 +66,9 @@ eKegg_T16_T0_up <- enrichKEGG(gene = T16_T0_up$entrez,
 dotplot(eKegg_T16_T0_up, showCategory = 20)
 
 # Активация при индуцибельной экспрессии
-````
+```
 ![индукция](images/pic11.png)
-````
+```
 # write.csv(as.data.frame(eKegg_T16_T0_up), 'T16_T0_up.csv')
 df_eKegg_T16_T0_up<- as.data.frame(eKegg_T16_T0_up)
 
@@ -80,28 +80,28 @@ eKegg_T16_T0_up_fc<- setReadable(eKegg_T16_T0_up_fc, 'org.Hs.eg.db', 'ENTREZID')
 cnetplot(eKegg_T16_T0_up_fc, colorEdge = TRUE, foldChange=kegg_gene_list, showCategory = 9)
 
 # Активация при индуцибельной экспрессии (канцерогенез 39,75,76,77)
-````
+```
 ![индукция](images/pic12.png)
-````
+```
 # Активация при индуцибельной экспрессии (канцерогенез 43,83,69,36)
-````
+```
 ![индукция](images/pic13.png)
-````
+```
 # Активация при индуцибельной экспрессии (клеточные контакты и адгезия 2,15,19)
-````
+```
 ![индукция](images/pic14.png)
-````
+```
 # Активация при индуцибельной экспрессии (клеточные контакты, адгезия, регуляция активного цитоскелета 2,6,15,19)
-````
+```
 ![индукция](images/pic15.png)
-`````
+````
 # Активация при индуцибельной экспрессии (актиновый цитоскелет и эндоцитоз 1,6)
-`````
+````
 ![индукция](images/pic16.png)
-````
-````
-####Tat 16 hours Tat 0 hours. Ингибирование
-````
+```
+```
+#### Tat 16 hours Tat 0 hours. Ингибирование
+```
 eKegg_T16_T0_down <- enrichKEGG(gene = T16_T0_down$entrez,
                               organism = "hsa",
                               keyType = "kegg",
@@ -114,11 +114,11 @@ eKegg_T16_T0_down <- enrichKEGG(gene = T16_T0_down$entrez,
                               use_internal_data = FALSE)
 
 dotplot(eKegg_T16_T0_down, showCategory = 20)
-````
+```
 Ингибирование при индуцибельной экспрессии
 ![индукция](images/pic17.png)
 
-````
+```
 
 #write.csv(as.data.frame(eKegg_T16_T0_down), 'T16_T0_down.csv')
 
@@ -129,22 +129,22 @@ eKegg_T16_T0_down_fc@result <- eKegg_T16_T0_down_fc@result[eKegg_T16_T0_down_fc@
 eKegg_T16_T0_down_fc<- setReadable(eKegg_T16_T0_down_fc, 'org.Hs.eg.db', 'ENTREZID')
 
 cnetplot(eKegg_T16_T0_down_fc, colorEdge = TRUE, foldChange=kegg_gene_list)
-````
+```
 ![индукция](images/pic19.png)
-````
+```
 #Ингибирование при индуцибельной экспрессии (сплайсосома 3)
-````
+```
 ![индукция](images/pic20.png)
-````
+```
 #Ингибирование при индуцибельной экспрессии (Репликация ДНК и клеточный цикл 7,9)
-````
+```
 ![индукция](images/pic21.png)
-````
+```
 #Ингибирование при индуцибельной экспрессии (Репликация ДНК и репарация 9,14,17,20)
 
-````
-####Фильтрация T16 T0 DOWN по Foldchange (снижение экспрессии в 1.5 раза)
-````
+```
+#### Фильтрация T16 T0 DOWN по Foldchange (снижение экспрессии в 1.5 раза)
+```
 T16_T0_down_FC_15 <- T16_T0_down[T16_T0_down$foldChange < 0.67,]
 
 eKegg_T16_T0_down_FC_15 <- enrichKEGG(gene = T16_T0_down_FC_15$entrez,
@@ -167,7 +167,7 @@ eKegg_T16_T0_down_FC_15_fc<- setReadable(eKegg_T16_T0_down_FC_15_fc, 'org.Hs.eg.
 
 
 cnetplot(eKegg_T16_T0_down_FC_15_fc, colorEdge = TRUE, foldChange=kegg_gene_list)
-````
+```
 ![индукция](images/pic18.png)
-````
+```
 # Ингибирование при индуцибельной экспрессии (Биогенез рибосом и РНК 2,4,6)
