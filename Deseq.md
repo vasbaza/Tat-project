@@ -4,7 +4,6 @@
 library(DESeq2)
 library(clusterProfiler)
 library(enrichplot)
-library(ggplot2)
 library(AnnotationDbi)
 library("org.Hs.eg.db", character.only = TRUE)
 ```
@@ -15,48 +14,35 @@ library("org.Hs.eg.db", character.only = TRUE)
 ```{r}
 control.1 <- read.delim("c1.counts.tab", header = TRUE)
 
-
 control.2 <- read.delim("c2.counts.tab", header = TRUE)
-
 
 control.3 <- read.delim("c3.counts.tab", header = TRUE)
 
-
 Tat.0h.1 <- read.delim("0h1.counts.tab", header = TRUE)
-
 
 Tat.0h.2 <- read.delim("0h2.counts.tab", header = TRUE)
 
-
 Tat.0h.3 <- read.delim("0h3.counts.tab", header = TRUE)
-
 
 Tat.16h.1 <- read.delim("16h1.counts.tab", header = TRUE)
 
-
 Tat.16h.2 <- read.delim("16h2.counts.tab", header = TRUE)
-
-
 
 Tat.16h.3 <- read.delim("16h3.counts.tab", header = TRUE)
 
-
 Tat.s.1 <- read.delim("s1.counts.tab", header = TRUE)
 
-
 Tat.s.2 <- read.delim("s2.counts.tab", header = TRUE)
-
 
 Tat.s.3 <- read.delim("s3.counts.tab", header = TRUE)
 
 raw_counts <- cbind(control.1, control.2, control.3, Tat.0h.1, Tat.0h.2, Tat.0h.3, Tat.16h.1, Tat.16h.2, Tat.16h.3, Tat.s.1, Tat.s.2, Tat.s.3)
 ```
 
-
 ### Deseq2
 
 ```{r}
-#Stable vs Control and O hours vs Control
+# Stable vs Control and O hours vs Control
 
 condition = c('control', 'control', 'control', 'Tat.0h', 'Tat.0h', 'Tat.0h', 'Tat.16h', 'Tat.16h', 'Tat.16h', 'Tat.s', 'Tat.s', 'Tat.s')
 col_matrix <- data.frame(sample = c('control.1', 'control.2', 'control.3', 'Tat.0h.1', 'Tat.0h.2', 'Tat.0h.3', 'Tat.16h.1', 'Tat.16h.2', 'Tat.16h.3', 'Tat.s.1', 'Tat.s.2', 'Tat.s.3'),
@@ -67,11 +53,6 @@ design = ~ condition)
 
 dds <- DESeq(dds)
 
-#
-#normalized_counts <-  counts(dds, normalized=TRUE)
-#normalized_counts <- as.data.frame(normalized_counts)
-#rownames(normalized_counts) <- rownames(res_s_c)
-#
 resultsNames(dds)
 
 res_T0_c <- results(dds, name = "condition_Tat.0h_vs_control")
@@ -79,7 +60,7 @@ res_s_c <- results(dds, name = "condition_Tat.s_vs_control")
 res_T0_c <- as.data.frame(res_T0_c)
 res_s_c <- as.data.frame(res_s_c)
 
-#16 hours vs 0 hours
+# 16 hours vs 0 hours
 raw_counts_16_0 <- cbind(Tat.0h.1, Tat.0h.2, Tat.0h.3, Tat.16h.1, Tat.16h.2, Tat.16h.3)
 condition = c('Tat.0h', 'Tat.0h', 'Tat.0h', 'Tat.16h', 'Tat.16h', 'Tat.16h')
 col_matrix <- data.frame(sample = c('Tat.0h.1', 'Tat.0h.2', 'Tat.0h.3', 'Tat.16h.1', 'Tat.16h.2', 'Tat.16h.3'),
@@ -186,13 +167,11 @@ s_c_up <- s_c_up[order(- (as.vector(s_c_up$stat))),]
 s_c_down <- res_s_c_padj[res_s_c_padj$log2FoldChange < 0,]
 s_c_down <- s_c_down[order(- (as.vector(s_c_down$stat))),]
 
-
 T0_c_up <- res_T0_c_padj[res_T0_c_padj$log2FoldChange > 0,]
 T0_c_up <- T0_c_up[order(- (as.vector(T0_c_up$stat))),]
 
 T0_c_down <- res_T0_c_padj[res_T0_c_padj$log2FoldChange < 0,]
 T0_c_down <- T0_c_down[order(- (as.vector(T0_c_down$stat))),]
-
 
 T16_T0_up <- res_T16_T0_padj[res_T16_T0_padj$log2FoldChange > 0,]
 T16_T0_up <- T16_T0_up[order(- (as.vector(T16_T0_up$stat))),]
