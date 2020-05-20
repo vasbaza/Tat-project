@@ -124,7 +124,7 @@ keys = row.names(res_T0_c),
 column = "GENENAME",
 keytype = "ENSEMBL",
 multiVals = "first")
-res_T0_c$foldChange <- 2^(res_T0_c$log2FoldChange)
+res_T0_c$foldChange <- 2**(res_T0_c$log2FoldChange)
 
 res_s_c$symbol = mapIds(org.Hs.eg.db,
 keys = row.names(res_s_c),
